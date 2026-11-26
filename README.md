@@ -6,7 +6,8 @@ Independent native mod-loader project for Geometry Dash Android 2.2091.
 ## Current stage
 
 **Runtime recognition and hook interface (0.1.2):**
-- JNI entry logs the process name and only runs bootstrap when it matches the Geometry Dash Android package.
+- JNI entry logs the process name and runs bootstrap only after Geometry Dash is recognized.
+- Bootstrap is no longer invoked from a library constructor, avoiding premature initialization before process validation.
 - Runtime detection reads `/proc/self/cmdline` on Android.
 - Hook API added. Dobby backend is optional and disabled by default; configure `CHOCO_WITH_DOBBY=ON` only when your build supplies a CMake target named `dobby_static`.
 
