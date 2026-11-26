@@ -1,5 +1,4 @@
 #include <choco/runtime.hpp>
-
 #if defined(CHOCO_ANDROID)
 #include <fstream>
 #endif
@@ -9,13 +8,12 @@ std::string process_name() {
 #if defined(CHOCO_ANDROID)
     std::ifstream cmdline("/proc/self/cmdline");
     std::string name;
-    if (cmdline) std::getline(cmdline, name, '\\0');
+    if (cmdline) std::getline(cmdline, name, '\0');
     return name;
 #else
     return {};
 #endif
 }
-
 bool is_geometry_dash() {
 #if defined(CHOCO_ANDROID)
     constexpr char target[] = "com.robtopx.geometryjump";
