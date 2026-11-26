@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.22)
-project(ChocoLoader VERSION 0.1.0 LANGUAGES CXX)
+project(ChocoLoader VERSION 0.1.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_library(choco_loader SHARED src/bootstrap.cpp)
+add_library(choco_loader SHARED
+    src/bootstrap.cpp
+    src/android_entry.cpp
+)
 target_include_directories(choco_loader PUBLIC include)
 target_compile_options(choco_loader PRIVATE -Wall -Wextra -Wpedantic)
 
