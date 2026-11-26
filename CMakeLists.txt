@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(CHOCO_WITH_DOBBY "Enable Dobby hook backend (requires Dobby target)" OFF)
+option(CHOCO_WITH_DOBBY "Enable Dobby hook backend (requires Dobby static target)" OFF)
 
 add_library(choco_loader SHARED
     src/bootstrap.cpp
@@ -23,10 +23,10 @@ if(ANDROID)
 endif()
 
 if(CHOCO_WITH_DOBBY)
-    if(NOT TARGET dobby)
-        message(FATAL_ERROR "CHOCO_WITH_DOBBY=ON requires a Dobby CMake target named 'dobby'. Add Dobby to your build first.")
+    if(NOT TARGET dobby_static)
+        message(FATAL_ERROR "CHOCO_WITH_DOBBY=ON requires a Dobby CMake target named 'dobby_static'. Add Dobby to your build first.")
     endif()
-    target_link_libraries(choco_loader PRIVATE dobby)
+    target_link_libraries(choco_loader PRIVATE dobby_static)
     target_compile_definitions(choco_loader PRIVATE CHOCO_WITH_DOBBY=1)
 endif()
 
