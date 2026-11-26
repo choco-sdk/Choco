@@ -24,7 +24,9 @@ void bootstrap() {
     if (!g_bootstrapped.compare_exchange_strong(expected, true)) return;
     log_info("Native bootstrap started.");
     log_info("Target: Android / Geometry Dash 2.2091 (initial scaffold).");
-    module::initialize_all();\n    log_info("Module registry initialized.");\n    log_info("Core initialization complete; dynamic module loading is not enabled yet.");
+    module::initialize_all();
+    log_info("Module registry initialized.");
+    log_info("Core initialization complete; dynamic module loading is not enabled yet.");
 }
 
 bool is_bootstrapped() { return g_bootstrapped.load(); }
