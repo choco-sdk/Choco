@@ -13,6 +13,7 @@ add_library(choco_loader SHARED
     src/runtime.cpp
     src/hook.cpp
     src/module.cpp
+    src/mod_validation.cpp
 )
 target_include_directories(choco_loader PUBLIC include)
 target_compile_options(choco_loader PRIVATE -Wall -Wextra -Wpedantic)
