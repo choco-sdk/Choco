@@ -25,3 +25,4 @@ Status install(void* target, void* replacement, void** original) {
     return Status::backend_unavailable;
 #endif
 }
+} // namespace choco::hook
