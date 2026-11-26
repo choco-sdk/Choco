@@ -45,7 +45,7 @@ void initialize_all() {
         bool ok = false;
         const auto initialize = g_modules[i].descriptor.initialize;
         if (initialize) ok = initialize();
-        g_modules[i].initialized = ok;
+        {\n            std::lock_guard<std::mutex> lock(g_mutex);\n            g_modules[i].initialized = ok;\n        }
     }
 }
 
