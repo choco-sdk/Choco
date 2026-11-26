@@ -12,6 +12,7 @@ add_library(choco_loader SHARED
     src/android_entry.cpp
     src/runtime.cpp
     src/hook.cpp
+    src/module.cpp
 )
 target_include_directories(choco_loader PUBLIC include)
 target_compile_options(choco_loader PRIVATE -Wall -Wextra -Wpedantic)
