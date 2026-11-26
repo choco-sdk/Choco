@@ -40,28 +40,33 @@ void initialize_all() {
         g_initialization_started = true;
     }
 
-    // Call module code outside the lock to avoid deadlocks if it calls back into Choco.
+    // Module callbacks run outside the lock so they can safely call Choco APIs.
     for (std::size_t i = 0; i < g_modules.size(); ++i) {
-        bool ok = false;
         const auto initialize = g_modules[i].descriptor.initialize;
-        if (initialize) ok = initialize();
-        {\n            std::lock_guard<std::mutex> lock(g_mutex);\n            g_modules[i].initialized = ok;\n        }
+        const bool ok = initialize && initialize();
+        std::lock_guard<std::mutex> lock(g_mutex);
+        g_modules[i].initialized = ok;
     }
 }
 
 void shutdown_all() {
     {
         std::lock_guard<std::mutex> lock(g_mutex);
-        if (g_shutdown_started) return;
+        if (g_shutdown_started || !g_initialization_started) return;
         g_shutdown_started = true;
     }
 
     for (std::size_t i = g_modules.size(); i > 0; --i) {
-        auto& entry = g_modules[i - 1];
-        if (entry.initialized && entry.descriptor.shutdown) {
-            entry.descriptor.shutdown();
-            entry.initialized = false;
+        ShutdownFn shutdown = nullptr;
+        {
+            std::lock_guard<std::mutex> lock(g_mutex);
+            auto& entry = g_modules[i - 1];
+            if (entry.initialized) {
+                shutdown = entry.descriptor.shutdown;
+                entry.initialized = false;
+            }
         }
+        if (shutdown) shutdown();
     }
 }
 
