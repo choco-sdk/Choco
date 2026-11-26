@@ -28,7 +28,3 @@ void bootstrap() {
 
 bool is_bootstrapped() { return g_bootstrapped.load(); }
 } // namespace choco
-
-#if defined(CHOCO_ANDROID)
-__attribute__((constructor)) static void choco_library_loaded() { choco::bootstrap(); }
-#endif
