@@ -5,7 +5,7 @@ Independent native mod-loader project for Geometry Dash Android 2.2091.
 
 ## Current stage
 
-**Runtime recognition, hook interface, module registry, and mod ABI (0.1.4):**
+**Native scaffold (0.1.4):**
 - JNI entry logs the process name and runs bootstrap only after Geometry Dash is recognized.
 - Bootstrap is no longer invoked from a library constructor, avoiding premature initialization before process validation.
 - Runtime detection reads `/proc/self/cmdline` on Android.
@@ -16,6 +16,16 @@ Independent native mod-loader project for Geometry Dash Android 2.2091.
 
 This is not an injector. Choco must already be loaded into the app process. No GD function addresses or hook targets are configured.
 
+## Ecosystem layout
+
+All Choco components live in this repository:
+- `loader/` — native loader/runtime (planned; current implementation remains in `src/` and `include/`)
+- `launcher/` — Android launcher app; intentionally minimal, modeled after the Geode launcher: logo, Launch button, Settings gear. Mod management is in-game only when Choco is loaded.
+- `compiler/` — compiler/toolchain for creating compiled `.choco` mods, with Termux and GitHub build support planned.
+- `docs/` — architecture and format drafts.
+
+The launcher is not a mod manager and will not show installed mods on its home screen.
+
 ## Build
 
 Build with Android NDK and CMake. Initial target: Android ARM64.
@@ -24,7 +34,10 @@ Build with Android NDK and CMake. Initial target: Android ARM64.
 
 - `include/choco/`: public loader headers
 - `src/`: native implementation
-- `mods/`: planned mod directory
+- `launcher/`: Android launcher (planned, same repository)
+- `compiler/`: compiler/tooling (planned)
+- `docs/`: architecture and package format drafts
+- `mods/`: planned in-game mod directory
 
 ## Dobby
 
@@ -33,7 +46,6 @@ Dobby is a third-party dependency. Its upstream repository states Apache-2.0; re
 ## License
 
 See [LICENSE](LICENSE).
-
 
 ## Mod ABI (early)
 
@@ -60,3 +72,7 @@ extern "C" CHOCO_MOD_EXPORT bool choco_mod_query(ChocoModInfo* out) {
 ```
 
 This ABI is a contract only: mods are not discovered, loaded, or executed yet. Build and runtime verification is still required.
+
+## Mod package format
+
+The `.choco` package format is being designed. See [the draft](docs/choco-format-draft.md). No internal container or compiled payload format is finalized yet.
