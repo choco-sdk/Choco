@@ -17,8 +17,8 @@ target_include_directories(choco_loader PUBLIC include)
 target_compile_options(choco_loader PRIVATE -Wall -Wextra -Wpedantic)
 
 if(ANDROID)
-    find_library(android_log log REQUIRED)
-    target_link_libraries(choco_loader PRIVATE ${android_log})
+    find_library(ANDROID_LOG_LIB log REQUIRED)
+    target_link_libraries(choco_loader PRIVATE ${ANDROID_LOG_LIB})
     target_compile_definitions(choco_loader PRIVATE CHOCO_ANDROID=1)
 endif()
 
