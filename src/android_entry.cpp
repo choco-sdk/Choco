@@ -1,5 +1,6 @@
 #include <choco/android_entry.hpp>
 #include <choco/bootstrap.hpp>
+#include <choco/runtime.hpp>
 
 #if defined(CHOCO_ANDROID)
 #include <jni.h>
@@ -7,7 +8,13 @@
 
 namespace choco {
 void android_jni_entry() {
-    __android_log_write(ANDROID_LOG_INFO, "Choco", "JNI entry reached.");
+    const auto process = runtime::process_name();
+    __android_log_print(ANDROID_LOG_INFO, "Choco", "JNI entry in process: %s", process.c_str());
+    if (!runtime::is_geometry_dash()) {
+        __android_log_write(ANDROID_LOG_INFO, "Choco", "Target process not recognized; bootstrap skipped.");
+        return;
+    }
+    __android_log_write(ANDROID_LOG_INFO, "Choco", "Geometry Dash process recognized.");
     bootstrap();
 }
 }
