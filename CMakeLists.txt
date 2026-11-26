@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.22)
+project(ChocoLoader VERSION 0.1.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_library(choco_loader SHARED src/bootstrap.cpp)
+target_include_directories(choco_loader PUBLIC include)
+target_compile_options(choco_loader PRIVATE -Wall -Wextra -Wpedantic)
+
+if(ANDROID)
+    find_library(android_log log REQUIRED)
+    target_link_libraries(choco_loader PRIVATE ${android_log})
+    target_compile_definitions(choco_loader PRIVATE CHOCO_ANDROID=1)
+endif()
+
+set_target_properties(choco_loader PROPERTIES
+    OUTPUT_NAME choco
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN YES
+)
