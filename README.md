@@ -11,7 +11,8 @@ Independent native mod-loader project for Geometry Dash Android 2.2091.
 - Runtime detection reads `/proc/self/cmdline` on Android.
 - Hook API added. Dobby backend is optional and disabled by default; configure `CHOCO_WITH_DOBBY=ON` only when your build supplies a CMake target named `dobby_static`.
 - Internal module registry supports unique IDs, init callbacks, optional shutdown callbacks, initialization in registration order, and shutdown in reverse order. Registration closes once initialization starts.
-- Bootstrap initializes the registry; dynamic module discovery/loading is not implemented yet.\n- C-compatible mod ABI header defines versioned descriptors, host logging callback, init/shutdown callbacks, and query symbol. Descriptor validation helper is implemented; loading mods from disk is still pending.
+- Bootstrap initializes the registry; dynamic module discovery/loading is not implemented yet.
+- C-compatible mod ABI header defines versioned descriptors, host logging callback, init/shutdown callbacks, and query symbol. Descriptor validation helper is implemented; loading mods from disk is still pending.
 
 This is not an injector. Choco must already be loaded into the app process. No GD function addresses or hook targets are configured.
 
