@@ -1,4 +1,5 @@
 #include <choco/bootstrap.hpp>
+#include <choco/module.hpp>
 #include <atomic>
 #if defined(CHOCO_ANDROID)
 #include <android/log.h>
@@ -23,7 +24,7 @@ void bootstrap() {
     if (!g_bootstrapped.compare_exchange_strong(expected, true)) return;
     log_info("Native bootstrap started.");
     log_info("Target: Android / Geometry Dash 2.2091 (initial scaffold).");
-    log_info("Core initialization complete; hooks and mod loading are not enabled yet.");
+    module::initialize_all();\n    log_info("Module registry initialized.");\n    log_info("Core initialization complete; dynamic module loading is not enabled yet.");
 }
 
 bool is_bootstrapped() { return g_bootstrapped.load(); }
